@@ -1,0 +1,5 @@
+{% for bus_unit in business_units %}
+provider "{{ bus_unit.provider.cloud }}" {
+  region = "{{ bus_unit.provider.region }}"
+}
+{% endfor %}

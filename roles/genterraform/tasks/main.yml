@@ -1,0 +1,12 @@
+---
+# tasks file for genterraform
+
+- name: Generate Terraform files
+  template:
+    src: "{{ item }}"
+    dest: "/tmp/bu/{{item | regex_replace('^(.*).j2(.*)$', '\\1\\2') }}"
+  loop:
+    - provider.tf.j2
+    - vpc.tf.j2
+    - subnet.tf.j2
+
