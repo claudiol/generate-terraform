@@ -20,3 +20,22 @@ business_units:
           cidrs: ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"] 
           availability_zones: [ "us-east-1", "us-west-1", "us-west-2"]
 
+  - name: bu2
+    provider: 
+      cloud: aws 
+      region: us-west-2
+    vpc:
+      name: bu2_vpc
+      cidr: 10.0.0.0/16
+      tag_name: "BU1 VPC on AWS"
+      subnets:
+        - name: bu2_public_subnet
+          description: "Public Subnet CIDRS for BU2"
+          cidrs: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+          availability_zones: [ "us-east-1", "us-west-1", "us-west-2"]
+        - name: bu2_private_subnet
+          description: "Private Subnet CIDRS for BU2"
+          cidrs: ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"] 
+          availability_zones: [ "us-east-1", "us-west-1", "us-west-2"]
+
+
