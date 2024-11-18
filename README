@@ -7,6 +7,7 @@ The variables are in the role itself under the roles/genterraform/vars/main.yml.
 what the directory structure looks like:
 
 ```shell
+
 roles/                                                                                                                                                                                                                  
 └── genterraform                                                                                                                                                                                                        
     ├── defaults                                                                                                                                                                                                        
@@ -34,6 +35,7 @@ roles/                                                 �
 ## VARS file format under main.yml (Ansible)
 The vars file has the following format:
 ```yaml
+
 ---
 # vars file for genterraform
 
@@ -55,11 +57,13 @@ business_units:
           description: "Private Subnet CIDRS for BU1"
           cidrs: ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"] 
           availability_zones: [ "us-east-1", "us-west-1", "us-west-2"]
+
 ```
 ## Description of variables
 Under the business_units section you can have a list of business units.  Each one will have the following variables defined:
 
 ```yaml
+
 - name: Name of the BU
   provider: Section that describes the cloud provider.
     name: Name of the providers. aws, azure etc.
@@ -73,9 +77,12 @@ Under the business_units section you can have a list of business units.  Each o
         description: Description of the subnet resource. Used to create a TAG in AWS 
         cidrs: List of CIDRS for the subnet
         availability_zones: List of availability zones for the subnet
+
 ```
 
 ## Running the playbook
+
+```shell
 
 ansible-playbook ./generate.yml
 claudiol@claudiol-thinkpadp16vgen1:gen-terraform
@@ -94,20 +101,26 @@ ok: [claudiol-thinkpadp16vgen1.rmtusco.csb] => (item=subnet.tf.j2)
 PLAY RECAP *************************************************************************************************************************************************************************************************************
 claudiol-thinkpadp16vgen1.rmtusco.csb : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
+```
+
 ## What gets generated
 roles/genterraform/v
 The following files get generated using the Jinja2 templates under roles/genterraform/templates directory.
 
+```shell
+
 claudiol@claudiol-thinkpadp16vgen1:gen-terraform
-```
 $ tree /tmp/bu
 /tmp/bu
 ├── provider.tf
 ├── subnet.tf
 └── vpc.tf
+
 ```
 
 ### vpc.tf file
+
+```
 resource "aws_vpc" "bu1_vpc" {
  cidr_block = "10.0.0.0/16"
  
@@ -117,7 +130,12 @@ resource "aws_vpc" "bu1_vpc" {
  }
 }
 
+```
+
 ### provider.tf
+
+```
+
 provider "aws" {
   region = "us-west-2"
   tags = {
@@ -126,7 +144,13 @@ provider "aws" {
   }
 }
 
+```
+
+
 ### subnet.tf file
+
+```
+
 resource "aws_subnet" "bu1_public_subnet" {
   count = length( 3 )
   vpc_id     = "bu1_vpc.id"
@@ -150,8 +174,12 @@ resource "aws_subnet" "bu1_private_subnet" {
   }
 } 
 
-## Running terraform to initialize
 ```
+
+## Running terraform to initialize
+
+```shell
+
 claudiol@claudiol-thinkpadp16vgen1:bu
 $ terraform init
 Initializing the backend...
@@ -173,13 +201,14 @@ should now work.
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
-```
 
+```
 
 ## Run terraform plan
 You then run terraform plan to see what resources this will create
 
-```
+```shell
+
 claudiol@claudiol-thinkpadp16vgen1:bu
 $ terraform plan
 
@@ -275,6 +304,7 @@ Plan: 3 to add, 0 to change, 0 to destroy.
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+
 ```
 
 Hopefully this gives you an idea of the power of code generation.  
