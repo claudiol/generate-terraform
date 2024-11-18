@@ -6,7 +6,7 @@ Basically followed the blog: https://spacelift.io/blog/terraform-aws-vpc
 The variables are in the role itself under the roles/genterraform/vars/main.yml. This is
 what the directory structure looks like:
 
-```
+```shell
 roles/                                                                                                                                                                                                                  
 └── genterraform                                                                                                                                                                                                        
     ├── defaults                                                                                                                                                                                                        
@@ -33,7 +33,7 @@ roles/                                                 �
 
 ## VARS file format under main.yml (Ansible)
 The vars file has the following format:
-```
+```yaml
 ---
 # vars file for genterraform
 
@@ -59,7 +59,7 @@ business_units:
 ## Description of variables
 Under the business_units section you can have a list of business units.  Each one will have the following variables defined:
 
-```
+```yaml
 - name: Name of the BU
   provider: Section that describes the cloud provider.
     name: Name of the providers. aws, azure etc.
